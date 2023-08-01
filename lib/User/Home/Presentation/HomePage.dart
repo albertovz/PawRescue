@@ -4,6 +4,7 @@ import 'package:paw/User/Login/Presentation/LoginPage.dart';
 import 'package:paw/User/Profile/Presentation/ProfilePage.dart';
 import 'package:paw/User/Search/Presentation/SearchPage.dart';
 import 'package:paw/User/Update/Presentation/UpdatePage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   String token;
@@ -18,9 +19,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
 
-  void _cerrarSesion() {
-    widget.token = '';
-    widget.userId = '';
+  void _cerrarSesion() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('token');
+    await prefs.remove('userId');
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
@@ -28,6 +30,28 @@ class _HomePageState extends State<HomePage> {
       ),
       (Route<dynamic> route) => false,
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadStoredData();
+  }
+
+  void _loadStoredData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? storedToken = prefs.getString('token');
+    String? storedUserId = prefs.getString('userId');
+
+    if (storedToken != null && storedUserId != null) {
+      setState(() {
+        widget.token = storedToken;
+        widget.userId = storedUserId;
+      });
+    } else {
+      // Si no hay un token y userId almacenados, redirigimos al usuario a la página de inicio de sesión.
+      _cerrarSesion();
+    }
   }
 
   @override

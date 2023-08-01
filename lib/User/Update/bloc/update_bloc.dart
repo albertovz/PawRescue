@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:paw/ApiService.dart';
+import 'package:paw/User/Auth/ApiService.dart';
 
 import 'update_event.dart';
 import 'update_state.dart';

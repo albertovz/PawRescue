@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:paw/ApiService.dart';
+import 'package:paw/User/Auth/ApiService.dart';
 import './register_event.dart';
 import 'register_state.dart';
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:paw/ApiService.dart';
+import 'package:paw/User/Auth/ApiService.dart';
 import 'package:paw/User/Login/Presentation/LoginPage.dart';
 import 'package:paw/User/Update/Presentation/UpdatePage.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -36,7 +36,7 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  void _cerrarSesion() {
+  void _cerrarSesion() async {
     // Aquí puedes agregar la lógica para cerrar la sesión, por ejemplo, limpiar el token de autenticación o realizar cualquier otra acción necesaria.
     // Luego, redirige al usuario a la página de LoginPage.
     widget.token = '';

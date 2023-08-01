@@ -9,25 +9,25 @@ abstract class SearchState extends Equatable {
   List<Object> get props => [];
 }
 
-class SearchInitialState extends SearchState {}
+class SearchInitial extends SearchState {}
 
-class SearchLoadingState extends SearchState {}
+class SearchLoading extends SearchState {}
 
-class SearchLoadedState extends SearchState {
-  final List<Ad> anuncios;
+class SearchLoaded extends SearchState {
   final List<Mascota> mascotas;
+  final List<Ad> anuncios;
 
-  SearchLoadedState(this.anuncios, this.mascotas);
+  SearchLoaded(this.mascotas, this.anuncios);
 
   @override
-  List<Object> get props => [anuncios, mascotas];
+  List<Object> get props => [mascotas, anuncios];
 }
 
-class SearchErrorState extends SearchState {
-  final String error;
+class SearchError extends SearchState {
+  final String errorMessage;
 
-  SearchErrorState(this.error);
+  SearchError(this.errorMessage);
 
   @override
-  List<Object> get props => [error];
+  List<Object> get props => [errorMessage];
 }

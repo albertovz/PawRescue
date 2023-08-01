@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:paw/User/Ad/Presentation/AdPage.dart';
-import 'package:paw/ApiService.dart';
+import 'package:paw/User/Auth/ApiService.dart';
 import 'package:paw/User/Home/Presentation/HomePage.dart';
 
 class AddPetPage extends StatefulWidget {

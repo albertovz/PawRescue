@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:paw/ApiService.dart';
+import 'package:paw/User/Auth/ApiService.dart';
 import 'profile_event.dart';
 import 'profile_state.dart';
 

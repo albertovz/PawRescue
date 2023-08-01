@@ -1,42 +1,32 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:async';
+import 'package:bloc/bloc.dart';
+import 'package:paw/User/Auth/ApiService.dart';
 import 'package:paw/User/Ad/Models/Ad.dart';
-import 'package:paw/ApiService.dart';
 import 'package:paw/Pet/Ad/Models/Pet.dart';
-
-import 'search_event.dart';
-import 'search_state.dart';
+import 'package:paw/User/Search/bloc/search_event.dart';
+import 'package:paw/User/Search/bloc/search_state.dart';
+import '../bloc/search_bloc.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
-  SearchBloc() : super(SearchInitialState());
+  SearchBloc() : super(SearchInitial());
 
   @override
-  Stream<SearchState> mapEventToState(SearchEvent event) async* {
-    if (event is FetchDataPet) {
-      yield* _mapFetchDataPetToState(event);
-    } else if (event is FetchDataAd) {
-      yield* _mapFetchDataAdToState(event);
+  Stream<SearchState> mapEventToState(
+    SearchEvent event,
+  ) async* {
+    if (event is FetchDataEvent) {
+      yield* _mapFetchDataEventToState(event.token);
     }
   }
 
-  Stream<SearchState> _mapFetchDataPetToState(FetchDataPet event) async* {
-    yield SearchLoadingState();
-
+  Stream<SearchState> _mapFetchDataEventToState(String token) async* {
+    yield SearchLoading();
     try {
-      final mascotasData = await ApiService.fetchDataPet(event.token);
-      yield SearchLoadedState([], mascotasData);
+      final mascotasData = await ApiService.fetchDataPet(token);
+      final List<Ad> fetchedAnuncios = await ApiService.fetchDataAd(token);
+      yield SearchLoaded(mascotasData, fetchedAnuncios);
     } catch (e) {
-      yield SearchErrorState('Error en la solicitud de mascotas: $e');
-    }
-  }
-
-  Stream<SearchState> _mapFetchDataAdToState(FetchDataAd event) async* {
-    yield SearchLoadingState();
-
-    try {
-      final fetchedAnuncios = await ApiService.fetchDataAd(event.token);
-      yield SearchLoadedState(fetchedAnuncios, []);
-    } catch (e) {
-      yield SearchErrorState('Error: $e');
+      yield SearchError('Error en la solicitud de datos: $e');
     }
   }
 }
